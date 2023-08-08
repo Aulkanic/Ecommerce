@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, mergeMap, throwError } from 'rxjs';
 import { User } from '../models/user.model';
-import { FormGroup } from '@angular/forms';
+import { CartService } from './cart.service';
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
     private combinedData: any; 
     private Orders: any;
 
-    constructor(private httpClient: HttpClient,private router: Router) {
+    constructor(private httpClient: HttpClient,private router: Router,private cart:CartService) {
       const storedUser = localStorage.getItem('User');
       if (storedUser) {
         this.userSubject = new BehaviorSubject<User | null>(JSON.parse(storedUser));

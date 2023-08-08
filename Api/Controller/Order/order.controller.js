@@ -37,6 +37,7 @@ module.exports = {
                         console.log(err)
                         return
                     }
+                    console.log(results)
                     return res.json(results)
                 })                 
             }

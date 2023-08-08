@@ -28,7 +28,7 @@
 
         <button class="cancel-button" (click)="cancelTransaction(group.date, group.paymentMethod)">Cancel Transaction</button>
         <p>
-            Total price: {{ calculateTotalPrice() | currency: 'PHP'}}
+            Total price: {{ calculateTotalPrice(group.orders) | currency: 'PHP'}}
         </p>
       </div>
   </div>

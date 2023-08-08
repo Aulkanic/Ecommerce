@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user.model';
 import { CartService } from 'src/app/services/cart.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-checkout',
@@ -48,11 +49,31 @@ export class CheckoutComponent implements OnInit {
       user: this.user,
       checkoutForm: this.checkoutForm.value
     };
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      },
+      customClass: {
+        container: 'custom-toast-container', // Add your custom class here
+        title: 'custom-toast-title'
+      }
+    })
   
     this.userStore.setCombinedData(combinedData);
     this.userStore.UserCheckout().subscribe(
       response =>{
         this.userStore.setTransaction(response)
+        Toast.fire({
+          icon: 'success',
+          title: 'Orders Submitted'
+        })
+        this.cartService.clearCart()
         this.router.navigate(['myOrders'])
       },
       error =>{

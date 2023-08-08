@@ -63,10 +63,11 @@ module.exports = {
         })
     },
     Cancel:(data,callBack) =>{
-        pool.query(`delete from userorders where orderedIn = ? and paymentMethod = ?`,
+        pool.query(`delete from userorders where orderedIn = ? and paymentMethod = ? and userId = ?`,
         [
             data.orderedIn,
-            data.paymentMethod
+            data.paymentMethod,
+            data.userId
         ],(err,results) =>{
             if(err){
                 callBack(err)
