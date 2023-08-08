@@ -1,0 +1,81 @@
+<div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <!-- Checkout form -->
+        <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+          <!-- Form fields for customer information -->
+          <div class="form-group">
+            <label for="recipientName">Recipient's Name</label>
+            <input type="text" class="form-control" formControlName="recipientName" required>
+          </div>
+          <div class="form-group">
+            <label for="Address">Address</label>
+            <input type="text" class="form-control" formControlName="Address" required>
+          </div>
+  
+          <!-- Payment method -->
+          <div class="form-group">
+            <label for="paymentMethod">Payment Method</label>
+            <select class="form-control" formControlName="paymentMethod" required>
+              <option value="Cash On Delivery">Cash On Delivery</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Paypal">Paypal</option>
+              <option value="Gcash">Gcash</option>
+              <!-- Add more payment options if needed -->
+            </select>
+          </div>
+  
+          <!-- Credit card information (displayed only when Credit Card payment method is selected) -->
+          <div *ngIf="checkoutForm.get('paymentMethod')?.value === 'Credit Card'">
+            <div class="form-group">
+              <label for="creditCardNumber">Credit Card Number</label>
+              <input type="text" class="form-control" formControlName="creditCardNumber" required>
+            </div>
+          </div>
+          <div *ngIf="checkoutForm.get('paymentMethod')?.value === 'Paypal'">
+            <div class="form-group">
+              <label for="paypalNumber">Paypal Number</label>
+              <input type="text" class="form-control" formControlName="paypalNumber" required>
+            </div>
+          </div>
+          <div *ngIf="checkoutForm.get('paymentMethod')?.value === 'Gcash'">
+            <div class="form-group">
+              <label for="gcashNumber">Gcash Number</label>
+              <input type="text" class="form-control" formControlName="gcashNumber" required>
+            </div>
+          </div>
+  
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary">Place Order</button>
+        </form>
+      </div>
+  
+ <!-- Right sidebar -->
+ <div class="col-md-4">
+    <!-- Sidebar content: Order Summary -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Order Summary</h5>
+        <ul class="list-group">
+          <li *ngFor="let item of cart.items" class="list-group-item d-flex justify-content-between align-items-center">
+            {{ item.name }}({{ item.quantity }}) - {{ itemtotal(item) | currency: 'PHP' }}
+          </li>
+        </ul>
+        <hr>
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Total:</strong>
+          <span class="badge badge-primary">{{
+            getTotal(cart.items) | currency: 'PHP'
+          }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional content: Shipping Information, Contact, etc. -->
+    <div class="mt-4">
+      <h5>Contact Information</h5>
+      <p>Email: {{ user?.email }}</p>
+      <p>Phone: {{ user?.mobilenum }}</p>
+    </div>
+    </div>
+  </div>

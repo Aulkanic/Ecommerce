@@ -1,0 +1,37 @@
+<div class="myorders">
+    <div class="myorderheader">
+        <h1>My Orders</h1>
+    </div>
+<div *ngIf="OrdersTransaction.length === 0" class="empty-message">
+        Your order list is empty. Start by exploring our products. <br>
+        <button class="explore-button" routerLink="/home">Explore Products</button>
+</div>
+<div *ngFor="let group of OrdersTransaction" class="order-group">
+    <div class="headerorder">
+    <h2 class="group-date">Placed on {{ group.date }}</h2>
+    <h2 class="group-method">Payment Method: {{ group.paymentMethod }}</h2>
+    </div>
+    <ul class="order-list">
+      <li *ngFor="let order of group.orders" class="order-item">
+        <img src="{{ order.images }}" alt="{{ order.item }}" class="item-image">
+        <div class="item-details">
+          <p class="item-name">{{ order.item }}</p>
+          <div class="item-info">
+            <p class="item-quantity">Quantity: {{ order.quantity }}</p>
+            <p class="item-price">Price: {{ order.price | currency: 'PHP' }}</p>    
+          </div>
+
+        </div>
+      </li>
+    </ul>
+    <div class="total-price">
+
+        <button class="cancel-button" (click)="cancelTransaction(group.date, group.paymentMethod)">Cancel Transaction</button>
+        <p>
+            Total price: {{ calculateTotalPrice() | currency: 'PHP'}}
+        </p>
+      </div>
+  </div>
+</div>
+  
+  
